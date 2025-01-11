@@ -5,6 +5,6 @@ package com.ilp.ilp_submission_2.data;
  * @param lng is the longitude
  * @param lat is the latitude
  */
-public record LngLat(double lng, double lat) {
+public record LngLat(Double lng, Double lat) {
 
 }
