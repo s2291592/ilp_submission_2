@@ -1,4 +1,4 @@
-package com.ilp.ilp_submission_2.request;
+package com.ilp.ilp_submission_2.model;
 
 import com.ilp.ilp_submission_2.data.LngLat;
 
@@ -9,6 +9,11 @@ import com.ilp.ilp_submission_2.data.LngLat;
 public class NextPositionRequest {
     private LngLat start;
     private Double angle;
+
+    public NextPositionRequest(LngLat start, Double angle) {
+        this.start = start;
+        this.angle = angle;
+    }
 
     public LngLat getStart() {
         return start;

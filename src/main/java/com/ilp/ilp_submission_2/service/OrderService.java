@@ -7,7 +7,7 @@ import com.ilp.ilp_submission_2.constant.SystemConstants;
 import com.ilp.ilp_submission_2.data.Order;
 import com.ilp.ilp_submission_2.data.Pizza;
 import com.ilp.ilp_submission_2.data.Restaurant;
-import com.ilp.ilp_submission_2.request.OrderValidation;
+import com.ilp.ilp_submission_2.model.OrderValidation;
 import com.ilp.ilp_submission_2.validators.OrderValidator;
 import com.ilp.ilp_submission_2.validators.PizzaValidator;
 import com.ilp.ilp_submission_2.validators.RestaurantValidator;

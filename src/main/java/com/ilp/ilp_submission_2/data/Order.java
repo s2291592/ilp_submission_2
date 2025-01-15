@@ -75,6 +75,10 @@ public final class Order {
      * @param creditCardInformation is the credit card to use
      */
     public Order(String orderNo, LocalDate orderDeliveryDate, int priceTotalInPence, Pizza[] pizzasInOrder, CreditCardInformation creditCardInformation) {
+        System.out.println("Order Constructor Called:");
+        System.out.println("OrderNo: " + orderNo);
+        System.out.println("OrderDate: " + orderDeliveryDate);
+        System.out.println("PriceTotalInPence: " + priceTotalInPence);
         this.setOrderNo(orderNo);
         this.setOrderDate(orderDeliveryDate);
         this.setPriceTotalInPence(priceTotalInPence);
@@ -88,6 +92,18 @@ public final class Order {
     public Order() {
 
     }
+
+    public Order(String number, LocalDate now, Pizza[] pizzas, Object o, int totalPrice, Object o1) {
+        this.orderNo = number;
+        this.orderDate = now;
+        System.out.println("Order created with status: " + orderStatus);
+    }
+
+//    public Order(String number, LocalDate now, Pizza[] pizzas, Object o, int i, Object o1) {
+//        this.setOrderNo(number);
+//        this.setOrderDate(now);
+//        this.setPizzasInOrder(pizzas);
+//    }
 
     @Override
     public int hashCode() {
@@ -107,7 +123,9 @@ public final class Order {
      * @param orderNo is the number to set
      */
     public void setOrderNo(String orderNo) {
+
         this.orderNo = orderNo;
+        System.out.println("Setting OrderStatus to: " + orderStatus);
     }
 
     /**

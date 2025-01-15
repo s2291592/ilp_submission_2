@@ -1,9 +1,6 @@
 package com.ilp.ilp_submission_2.utils;
 
 import com.ilp.ilp_submission_2.data.LngLat;
-import com.ilp.ilp_submission_2.request.LngLatPairRequest;
-import com.ilp.ilp_submission_2.validators.DistanceRequestValidator;
-import org.springframework.http.ResponseEntity;
 
 public class DistanceUtils {
 
@@ -29,23 +26,20 @@ public class DistanceUtils {
     public static LngLat getPosition(Double angle, LngLat start) {
         double angleInRadians = Math.toRadians(angle);
 
-        // Calculate the new latitude
+        // Calculate the new latitude and longitude
         double newLat = start.lat() + (0.00015 * Math.cos(angleInRadians));
-        if (newLat >= 90) {
-            newLat = 180 - newLat;
-        } else if (newLat <= -90) {
-            newLat = -180 - newLat;
-        }
-
-        // Calculate the new longitude
         double newLng = start.lng() + (0.00015 * Math.sin(angleInRadians));
-        if (newLng >= 180) {
-            newLng = newLng - 360;
-        } else if (newLng < -180) {
-            newLng = newLng + 360;
-        }
 
-        // Return a new, immutable LngLat record with updated coordinates
+        // Ensure latitude is within -90 to 90
+        newLat = Math.max(-90, Math.min(90, newLat));
+
+        // Robust wrapping for longitude
+        newLng = ((newLng + 180) % 360 + 360) % 360 - 180;
+
         return new LngLat(newLng, newLat);
     }
+
+
+
+
 }

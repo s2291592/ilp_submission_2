@@ -1,4 +1,4 @@
-package com.ilp.ilp_submission_2.request;
+package com.ilp.ilp_submission_2.model;
 
 import com.ilp.ilp_submission_2.data.LngLat;
 import com.ilp.ilp_submission_2.data.NamedRegion;

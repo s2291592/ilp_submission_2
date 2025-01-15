@@ -1,9 +1,9 @@
 package com.ilp.ilp_submission_2.controllers;
 
 
-import com.ilp.ilp_submission_2.request.IsInRegionRequest;
-import com.ilp.ilp_submission_2.request.LngLatPairRequest;
-import com.ilp.ilp_submission_2.request.NextPositionRequest;
+import com.ilp.ilp_submission_2.model.IsInRegionRequest;
+import com.ilp.ilp_submission_2.model.LngLatPairRequest;
+import com.ilp.ilp_submission_2.model.NextPositionRequest;
 
 import com.ilp.ilp_submission_2.service.DistanceService;
 

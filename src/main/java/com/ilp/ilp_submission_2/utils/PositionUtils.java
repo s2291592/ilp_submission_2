@@ -2,7 +2,7 @@ package com.ilp.ilp_submission_2.utils;
 
 
 import com.ilp.ilp_submission_2.data.LngLat;
-import com.ilp.ilp_submission_2.request.LngLatPairRequest;
+import com.ilp.ilp_submission_2.model.LngLatPairRequest;
 
 public class PositionUtils {
     /**

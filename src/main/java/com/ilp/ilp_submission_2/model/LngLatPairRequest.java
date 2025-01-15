@@ -1,4 +1,4 @@
-package com.ilp.ilp_submission_2.request;
+package com.ilp.ilp_submission_2.model;
 
 import com.ilp.ilp_submission_2.data.LngLat;
 
@@ -10,6 +10,11 @@ import com.ilp.ilp_submission_2.data.LngLat;
 public class LngLatPairRequest {
     private LngLat position1;
     private LngLat position2;
+
+    public LngLatPairRequest(LngLat pos1, LngLat pos2) {
+        this.position1 = pos1;
+        this.position2 = pos2;
+    }
 
     // Getters and Setters
     public LngLat getPosition1() {

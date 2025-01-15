@@ -107,7 +107,7 @@ package com.ilp.ilp_submission_2.validators;
 
 import com.ilp.ilp_submission_2.data.LngLat;
 import com.ilp.ilp_submission_2.data.NamedRegion;
-import com.ilp.ilp_submission_2.request.IsInRegionRequest;
+import com.ilp.ilp_submission_2.model.IsInRegionRequest;
 import org.springframework.stereotype.Component;
 
 import java.awt.geom.Path2D;

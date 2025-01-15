@@ -1,12 +1,11 @@
 package com.ilp.ilp_submission_2.controllers;
 
 import com.ilp.ilp_submission_2.data.Order;
-import com.ilp.ilp_submission_2.request.OrderValidation;
+import com.ilp.ilp_submission_2.model.OrderValidation;
 import com.ilp.ilp_submission_2.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class ValidateOrderPostController {

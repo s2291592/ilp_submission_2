@@ -26,15 +26,15 @@ public class DeliveryPathService {
         // Validate the order
         deliveryValidator.validateOrder(order);
 
-        // Fetch restaurants and no-fly zones
+        // Fetch necessary data
         List<Restaurant> restaurants = deliveryValidator.fetchRestaurants();
-        Set<LngLat> noFlyZones = deliveryValidator.fetchNoFlyZones();
+        Set<List<LngLat>> noFlyZones = deliveryValidator.fetchNoFlyZones();
 
-        // Get start and end points
+        // Determine start and end points
         LngLat start = restaurantValidator.getRestaurantLocation(order, restaurants);
         LngLat end = deliveryValidator.getDeliveryLocation(order);
 
-        // Calculate path using A* algorithm
+        // Calculate the path avoiding no-fly zones
         return PathfindingUtils.calculatePathAvoidingNoFlyZones(start, end, noFlyZones);
     }
 }

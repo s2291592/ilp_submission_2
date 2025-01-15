@@ -1,4 +1,4 @@
-package com.ilp.ilp_submission_2.request;
+package com.ilp.ilp_submission_2.model;
 
 import com.ilp.ilp_submission_2.constant.OrderStatus;
 import com.ilp.ilp_submission_2.constant.OrderValidationCode;

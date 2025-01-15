@@ -1,5 +1,6 @@
 package com.ilp.ilp_submission_2.utils;
 
+import com.ilp.ilp_submission_2.constant.DroneConstants;
 import com.ilp.ilp_submission_2.data.LngLat;
 import com.ilp.ilp_submission_2.data.Node;
 
@@ -7,7 +8,17 @@ import java.util.*;
 
 public class PathfindingUtils {
 
-    public static List<LngLat> calculatePathAvoidingNoFlyZones(LngLat start, LngLat end, Set<LngLat> noFlyZones) {
+    private static final double HEURISTIC_MULTIPLIER = 2;
+
+    /**
+     * Calculates a path from the start to the end point while avoiding no-fly zones.
+     *
+     * @param start       Starting LngLat point
+     * @param end         Ending LngLat point
+     * @param noFlyZones  Set of polygons representing restricted zones
+     * @return List of LngLat points forming the path
+     */
+    public static List<LngLat> calculatePathAvoidingNoFlyZones(LngLat start, LngLat end, Set<List<LngLat>> noFlyZones) {
         PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingDouble(Node::getCost));
         Map<Node, Node> cameFrom = new HashMap<>();
         Map<Node, Double> gScore = new HashMap<>();
@@ -23,7 +34,7 @@ public class PathfindingUtils {
         while (!openSet.isEmpty()) {
             Node current = openSet.poll();
 
-            if (current.equals(endNode)) {
+            if (DistanceUtils.isWithinThreshold(current.getPoint().lat(), current.getPoint().lng(), endNode.getPoint().lat(), endNode.getPoint().lng())) {
                 return reconstructPath(current);
             }
 
@@ -33,12 +44,14 @@ public class PathfindingUtils {
                 if (closedSet.contains(neighbor)) continue;
 
                 double tentativeGScore = gScore.getOrDefault(current, Double.MAX_VALUE) +
-                        distance(current.getPoint(), neighbor.getPoint());
+                        DistanceUtils.calculateEuclideanDistance(current.getPoint().lat(), current.getPoint().lng(), neighbor.getPoint().lat(), neighbor.getPoint().lng());
 
                 if (!openSet.contains(neighbor) || tentativeGScore < gScore.getOrDefault(neighbor, Double.MAX_VALUE)) {
                     neighbor.setPrevious(current);
                     gScore.put(neighbor, tentativeGScore);
-                    neighbor.setCost(tentativeGScore + heuristic(neighbor.getPoint(), end));
+
+                    double fScore = tentativeGScore + HEURISTIC_MULTIPLIER * heuristic(neighbor.getPoint(), end);
+                    neighbor.setCost(fScore);
                     openSet.add(neighbor);
                 }
             }
@@ -47,20 +60,17 @@ public class PathfindingUtils {
         return new ArrayList<>(); // No path found
     }
 
-    private static List<Node> getNeighbors(Node current, Set<LngLat> noFlyZones) {
+    /**
+     * Generates neighboring nodes for a given node while avoiding no-fly zones.
+     */
+    static List<Node> getNeighbors(Node current, Set<List<LngLat>> noFlyZones) {
         List<Node> neighbors = new ArrayList<>();
         double lng = current.getPoint().lng();
         double lat = current.getPoint().lat();
 
-        List<LngLat> potentialNeighbors = List.of(
-                new LngLat(lng + 0.0001, lat),
-                new LngLat(lng - 0.0001, lat),
-                new LngLat(lng, lat + 0.0001),
-                new LngLat(lng, lat - 0.0001)
-        );
-
-        for (LngLat neighborPoint : potentialNeighbors) {
-            if (!noFlyZones.contains(neighborPoint)) {
+        for (double[] direction : DroneConstants.COMPASS_DIRECTIONS) {
+            LngLat neighborPoint = new LngLat(lng + direction[0], lat + direction[1]);
+            if (!isInsideNoFlyZone(neighborPoint, noFlyZones)) {
                 neighbors.add(new Node(neighborPoint));
             }
         }
@@ -68,8 +78,43 @@ public class PathfindingUtils {
         return neighbors;
     }
 
-    private static List<LngLat> reconstructPath(Node current) {
-        List<LngLat> path = new ArrayList<>();
+    /**
+     * Checks if a point is inside any no-fly zone.
+     */
+    private static boolean isInsideNoFlyZone(LngLat point, Set<List<LngLat>> noFlyZones) {
+        for (List<LngLat> zone : noFlyZones) {
+            if (isPointInsidePolygon(point, zone)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Determines if a point lies inside a polygon using the ray-casting algorithm.
+     */
+    static boolean isPointInsidePolygon(LngLat point, List<LngLat> polygon) {
+        int n = polygon.size();
+        boolean inside = false;
+
+        for (int i = 0, j = n - 1; i < n; j = i++) {
+            LngLat vi = polygon.get(i);
+            LngLat vj = polygon.get(j);
+
+            if ((vi.lat() > point.lat()) != (vj.lat() > point.lat()) &&
+                    (point.lng() < (vj.lng() - vi.lng()) * (point.lat() - vi.lat()) / (vj.lat() - vi.lat()) + vi.lng())) {
+                inside = !inside;
+            }
+        }
+
+        return inside;
+    }
+
+    /**
+     * Reconstructs the path from the current node back to the start.
+     */
+    static List<LngLat> reconstructPath(Node current) {
+        LinkedList<LngLat> path = new LinkedList<>();
         while (current != null) {
             path.addFirst(current.getPoint());
             current = current.getPrevious();
@@ -77,11 +122,11 @@ public class PathfindingUtils {
         return path;
     }
 
+    /**
+     * Heuristic function for A* algorithm.
+     */
     private static double heuristic(LngLat a, LngLat b) {
-        return distance(a, b);
+        return DistanceUtils.calculateEuclideanDistance(a.lat(), a.lng(), b.lat(), b.lng());
     }
 
-    private static double distance(LngLat a, LngLat b) {
-        return Math.sqrt(Math.pow(a.lng() - b.lng(), 2) + Math.pow(a.lat() - b.lat(), 2));
-    }
 }

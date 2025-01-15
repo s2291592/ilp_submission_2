@@ -1,9 +1,9 @@
 package com.ilp.ilp_submission_2.service;
 
 import com.ilp.ilp_submission_2.data.LngLat;
-import com.ilp.ilp_submission_2.request.LngLatPairRequest;
-import com.ilp.ilp_submission_2.request.NextPositionRequest;
-import com.ilp.ilp_submission_2.request.IsInRegionRequest;
+import com.ilp.ilp_submission_2.model.LngLatPairRequest;
+import com.ilp.ilp_submission_2.model.NextPositionRequest;
+import com.ilp.ilp_submission_2.model.IsInRegionRequest;
 import com.ilp.ilp_submission_2.validators.DistanceRequestValidator;
 import com.ilp.ilp_submission_2.validators.NextPosRequestValidator;
 import com.ilp.ilp_submission_2.validators.IsInRegionValidator;

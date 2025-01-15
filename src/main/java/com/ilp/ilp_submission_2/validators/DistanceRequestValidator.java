@@ -1,6 +1,6 @@
 package com.ilp.ilp_submission_2.validators;
 import com.ilp.ilp_submission_2.data.LngLat;
-import com.ilp.ilp_submission_2.request.LngLatPairRequest;
+import com.ilp.ilp_submission_2.model.LngLatPairRequest;
 import com.ilp.ilp_submission_2.utils.PositionUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;

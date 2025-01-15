@@ -19,12 +19,12 @@ public class OrderValidator {
         if (order.getOrderNo() == null || order.getOrderNo().isBlank()) {
             return ResponseEntity.badRequest().body("Order number is missing");
         }
-        if (order.getOrderDate() == null) {
+        if (order.getOrderDate() == null || order.getOrderDate().toString().equals("-999999999-01-01")) {
+            // Properly handle and return the error for a missing OrderDate
             return ResponseEntity.badRequest().body("Order date is missing");
         }
-        // Possibly more checks...
 
-        // If everything is structurally fine, return null to indicate "OK to proceed"
+        // If everything is fine, return null to indicate validation success
         return null;
     }
 }
